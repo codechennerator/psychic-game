@@ -18,51 +18,45 @@
 		var validLetters = ['a','b','c','d','e','f','g','h','i','j','k','l','m',
 							'n','o','p','q','r','s','t','u','v','w','x','y','z'];
 		var compSelection = validLetters[Math.floor(Math.random() * validLetters.length)];
-		console.log(compSelection);
 
 
 		function getNewLetter(){
 			compSelection = validLetters[Math.floor(Math.random() * validLetters.length)];
-			console.log("new letter made " + compSelection);
 		}
 
 		function gameReset(){
 			getNewLetter();
 			pastGuesses = [];
 			turnsLeft = 9;
-			console.log(pastGuesses);
-			console.log(turnsLeft);
 		}
 
 		document.onkeyup = function(event){
 			var currentGuess = event.key;
-			/* This if statement checks if you have turns left. If it doesn't, go to else statement.*/
-			if(turnsLeft >0 && currentGuess){
-				if (currentGuess === compSelection){
-					wins ++;
-					console.log("wins = " + wins);
+			//Check to see if there is a valid input.
+			if (currentGuess >= 'a' && currentGuess <= 'z'){
+
+				//This if statement checks if you have turns left. If it doesn't, go to else statement.
+				if(turnsLeft >0 && currentGuess){
+					if (currentGuess === compSelection){
+						wins ++;
+						gameReset();
+					else{
+						turnsLeft--;
+						pastGuesses.push(currentGuess);
+					}
+				}else{
+					losses ++;
 					gameReset();
-				}else if(currentGuess == "Meta" || currentGuess == "Alt"||currentGuess == "Shift"||currentGuess == "Control"){
-					
 				}
-				else{
-					turnsLeft--;
-					console.log(turnsLeft);
-					pastGuesses.push(currentGuess);
-					console.log(pastGuesses);
+
+				var html = 	"<p>Wins: " + wins + "</p>" + 
+							"<p>Losses: " + losses + "</p>" + 
+							"<p>Guesses Left: " + turnsLeft + "</p>" +  
+							"<p>Your Guesses so Far: " + pastGuesses + "</p>";
+
+				document.querySelector('#game').innerHTML = html;
 				}
-			}else{
-				losses ++;
-				gameReset();
 			}
-
-			var html = 	"<p>Wins: " + wins + "</p>" + 
-						"<p>Losses: " + losses + "</p>" + 
-						"<p>Guesses Left: " + turnsLeft + "</p>" +  
-						"<p>Your Guesses so Far: " + pastGuesses + "</p>";
-
-			document.querySelector('#game').innerHTML = html;
-		}
 
 	</script>
 	
